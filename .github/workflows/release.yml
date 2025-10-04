@@ -22,7 +22,7 @@ jobs:
         run: swift build --arch arm64 -c release --product jotty
 
       - name: Package binary
-        run: tar -czf jotty-${{ env.RELEASE_TAG }}-macos-arm64.tar.gz -C .build/apple/Products/Release jotty
+        run: tar -czf jotty-${{ env.RELEASE_TAG }}-macos-arm64.tar.gz -C .build/arm64-apple-macosx/release jotty
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
