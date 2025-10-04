@@ -18,30 +18,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Show Xcode and Swift versions
-        run: |
-          xcodebuild -version || true
-          swift --version || true
-
       - name: Build release binary
-        run: |
-          swift build -c release
+        run: swift build --arch arm64 -c release --product jotty
 
       - name: Package binary
-        run: |
-          mkdir -p dist
-          cp .build/release/jotty dist/jotty
-          cd dist
-          zip -r "jotty-${RELEASE_TAG}-macos-arm64.zip" jotty
-          shasum -a 256 "jotty-${RELEASE_TAG}-macos-arm64.zip" > "jotty-${RELEASE_TAG}-macos-arm64.zip.sha256"
+        run: tar -czf jotty-${{ env.RELEASE_TAG }}-macos-arm64.tar.gz -C .build/apple/Products/Release jotty
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-arm64
-          path: |
-            dist/jotty-${{ env.RELEASE_TAG }}-macos-arm64.zip
-            dist/jotty-${{ env.RELEASE_TAG }}-macos-arm64.zip.sha256
+          path: jotty-${{ env.RELEASE_TAG }}-macos-arm64.tar.gz
 
   release:
     name: Create GitHub Release
@@ -59,8 +46,6 @@ jobs:
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            artifacts/jotty-*-macos-arm64.zip
-            artifacts/jotty-*-macos-arm64.zip.sha256
+          files: artifacts/jotty-*-macos-arm64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
