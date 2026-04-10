@@ -19,7 +19,7 @@ swift test --arch arm64
 
 - macOS 26.0 (Tahoe) 以降
 - Apple Silicon (arm64)
-- Swift 6.3+
+- Swift 6.2+
 
 ## Dependencies
 
