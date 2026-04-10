@@ -7,7 +7,7 @@ import Foundation
 ///  - 2%: ⣤
 ///  - 3%: ⣶
 ///  - 4%: ⣿
-final class ProgressDisplay {
+final class ProgressDisplay: @unchecked Sendable {
     private var lastPercent: Int = -1
     private var lastUpdateTime: TimeInterval = 0
     private let frameInterval: TimeInterval
